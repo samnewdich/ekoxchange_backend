@@ -29,6 +29,7 @@ export class AuthController {
             return userExists;
 
         } catch (err) {
+            console.log(err);
             return reply
                 .code(CODE.INTERNAL_SERVER_ERROR)
                 .send(response.internalServerError(err));

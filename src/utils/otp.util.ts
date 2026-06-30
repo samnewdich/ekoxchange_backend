@@ -2,7 +2,8 @@ import { createHash } from "crypto";
 import { sendOtpSms, sendSms } from "../apis/termii/sendotp.termii.api.js";
 import { sendEmailMailersend } from "../apis/mailersend/send.mailersend.api.js";
 
-export function otpUtil(value: string): string {
+/*export function otpUtil(value: string): string {
+    return randomInt(100000, 1000000).toString();
     const hash = createHash("sha256")
         .update(value)
         .digest("hex");
@@ -13,6 +14,19 @@ export function otpUtil(value: string): string {
         .map(char => char.charCodeAt(0))
         .join("")
         .replace(/\D/g, "");
+}
+*/
+
+export function otpUtil(value: string): string {
+    const hash = createHash("sha256")
+        .update(value)
+        .digest("hex");
+
+    const number = BigInt("0x" + hash);
+
+    return (number % 1000000n)
+        .toString()
+        .padStart(6, "0");
 }
 
 

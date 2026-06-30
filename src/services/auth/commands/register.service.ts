@@ -39,6 +39,7 @@ export class RegisterService {
                 }
             
         } catch (error) {
+            console.log(error);
             return reply
                 .code(CODE.INTERNAL_SERVER_ERROR)
                 .send(response.internalServerError(error));
