@@ -860,6 +860,8 @@ export namespace Prisma {
     updatedAt: Date | null
     isEmailVerified: boolean | null
     isPhoneVerified: boolean | null
+    authenticatorSecret: string | null
+    isAuthenticatorEnabled: boolean | null
   }
 
   export type UserMaxAggregateOutputType = {
@@ -887,6 +889,8 @@ export namespace Prisma {
     updatedAt: Date | null
     isEmailVerified: boolean | null
     isPhoneVerified: boolean | null
+    authenticatorSecret: string | null
+    isAuthenticatorEnabled: boolean | null
   }
 
   export type UserCountAggregateOutputType = {
@@ -914,6 +918,8 @@ export namespace Prisma {
     updatedAt: number
     isEmailVerified: number
     isPhoneVerified: number
+    authenticatorSecret: number
+    isAuthenticatorEnabled: number
     _all: number
   }
 
@@ -955,6 +961,8 @@ export namespace Prisma {
     updatedAt?: true
     isEmailVerified?: true
     isPhoneVerified?: true
+    authenticatorSecret?: true
+    isAuthenticatorEnabled?: true
   }
 
   export type UserMaxAggregateInputType = {
@@ -982,6 +990,8 @@ export namespace Prisma {
     updatedAt?: true
     isEmailVerified?: true
     isPhoneVerified?: true
+    authenticatorSecret?: true
+    isAuthenticatorEnabled?: true
   }
 
   export type UserCountAggregateInputType = {
@@ -1009,6 +1019,8 @@ export namespace Prisma {
     updatedAt?: true
     isEmailVerified?: true
     isPhoneVerified?: true
+    authenticatorSecret?: true
+    isAuthenticatorEnabled?: true
     _all?: true
   }
 
@@ -1123,6 +1135,8 @@ export namespace Prisma {
     updatedAt: Date
     isEmailVerified: boolean | null
     isPhoneVerified: boolean | null
+    authenticatorSecret: string | null
+    isAuthenticatorEnabled: boolean
     _count: UserCountAggregateOutputType | null
     _avg: UserAvgAggregateOutputType | null
     _sum: UserSumAggregateOutputType | null
@@ -1169,6 +1183,8 @@ export namespace Prisma {
     updatedAt?: boolean
     isEmailVerified?: boolean
     isPhoneVerified?: boolean
+    authenticatorSecret?: boolean
+    isAuthenticatorEnabled?: boolean
   }, ExtArgs["result"]["user"]>
 
 
@@ -1198,9 +1214,11 @@ export namespace Prisma {
     updatedAt?: boolean
     isEmailVerified?: boolean
     isPhoneVerified?: boolean
+    authenticatorSecret?: boolean
+    isAuthenticatorEnabled?: boolean
   }
 
-  export type UserOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "email" | "provider" | "providerId" | "fullname" | "firstname" | "lastname" | "username" | "password" | "phone" | "country" | "timeZone" | "referralCode" | "deviceID" | "latitude" | "longitude" | "locationName" | "deviceName" | "otp" | "otpCreatedTime" | "createdAt" | "updatedAt" | "isEmailVerified" | "isPhoneVerified", ExtArgs["result"]["user"]>
+  export type UserOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "email" | "provider" | "providerId" | "fullname" | "firstname" | "lastname" | "username" | "password" | "phone" | "country" | "timeZone" | "referralCode" | "deviceID" | "latitude" | "longitude" | "locationName" | "deviceName" | "otp" | "otpCreatedTime" | "createdAt" | "updatedAt" | "isEmailVerified" | "isPhoneVerified" | "authenticatorSecret" | "isAuthenticatorEnabled", ExtArgs["result"]["user"]>
 
   export type $UserPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "User"
@@ -1230,6 +1248,8 @@ export namespace Prisma {
       updatedAt: Date
       isEmailVerified: boolean | null
       isPhoneVerified: boolean | null
+      authenticatorSecret: string | null
+      isAuthenticatorEnabled: boolean
     }, ExtArgs["result"]["user"]>
     composites: {}
   }
@@ -1646,6 +1666,8 @@ export namespace Prisma {
     readonly updatedAt: FieldRef<"User", 'DateTime'>
     readonly isEmailVerified: FieldRef<"User", 'Boolean'>
     readonly isPhoneVerified: FieldRef<"User", 'Boolean'>
+    readonly authenticatorSecret: FieldRef<"User", 'String'>
+    readonly isAuthenticatorEnabled: FieldRef<"User", 'Boolean'>
   }
     
 
@@ -2022,7 +2044,9 @@ export namespace Prisma {
     createdAt: 'createdAt',
     updatedAt: 'updatedAt',
     isEmailVerified: 'isEmailVerified',
-    isPhoneVerified: 'isPhoneVerified'
+    isPhoneVerified: 'isPhoneVerified',
+    authenticatorSecret: 'authenticatorSecret',
+    isAuthenticatorEnabled: 'isAuthenticatorEnabled'
   };
 
   export type UserScalarFieldEnum = (typeof UserScalarFieldEnum)[keyof typeof UserScalarFieldEnum]
@@ -2143,6 +2167,8 @@ export namespace Prisma {
     updatedAt?: DateTimeFilter<"User"> | Date | string
     isEmailVerified?: BoolNullableFilter<"User"> | boolean | null
     isPhoneVerified?: BoolNullableFilter<"User"> | boolean | null
+    authenticatorSecret?: StringNullableFilter<"User"> | string | null
+    isAuthenticatorEnabled?: BoolFilter<"User"> | boolean
   }
 
   export type UserOrderByWithRelationInput = {
@@ -2170,6 +2196,8 @@ export namespace Prisma {
     updatedAt?: SortOrder
     isEmailVerified?: SortOrder
     isPhoneVerified?: SortOrder
+    authenticatorSecret?: SortOrder
+    isAuthenticatorEnabled?: SortOrder
   }
 
   export type UserWhereUniqueInput = Prisma.AtLeast<{
@@ -2200,6 +2228,8 @@ export namespace Prisma {
     updatedAt?: DateTimeFilter<"User"> | Date | string
     isEmailVerified?: BoolNullableFilter<"User"> | boolean | null
     isPhoneVerified?: BoolNullableFilter<"User"> | boolean | null
+    authenticatorSecret?: StringNullableFilter<"User"> | string | null
+    isAuthenticatorEnabled?: BoolFilter<"User"> | boolean
   }, "id" | "email" | "providerId" | "username">
 
   export type UserOrderByWithAggregationInput = {
@@ -2227,6 +2257,8 @@ export namespace Prisma {
     updatedAt?: SortOrder
     isEmailVerified?: SortOrder
     isPhoneVerified?: SortOrder
+    authenticatorSecret?: SortOrder
+    isAuthenticatorEnabled?: SortOrder
     _count?: UserCountOrderByAggregateInput
     _avg?: UserAvgOrderByAggregateInput
     _max?: UserMaxOrderByAggregateInput
@@ -2262,6 +2294,8 @@ export namespace Prisma {
     updatedAt?: DateTimeWithAggregatesFilter<"User"> | Date | string
     isEmailVerified?: BoolNullableWithAggregatesFilter<"User"> | boolean | null
     isPhoneVerified?: BoolNullableWithAggregatesFilter<"User"> | boolean | null
+    authenticatorSecret?: StringNullableWithAggregatesFilter<"User"> | string | null
+    isAuthenticatorEnabled?: BoolWithAggregatesFilter<"User"> | boolean
   }
 
   export type UserCreateInput = {
@@ -2289,6 +2323,8 @@ export namespace Prisma {
     updatedAt?: Date | string
     isEmailVerified?: boolean | null
     isPhoneVerified?: boolean | null
+    authenticatorSecret?: string | null
+    isAuthenticatorEnabled?: boolean
   }
 
   export type UserUncheckedCreateInput = {
@@ -2316,6 +2352,8 @@ export namespace Prisma {
     updatedAt?: Date | string
     isEmailVerified?: boolean | null
     isPhoneVerified?: boolean | null
+    authenticatorSecret?: string | null
+    isAuthenticatorEnabled?: boolean
   }
 
   export type UserUpdateInput = {
@@ -2342,6 +2380,8 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     isEmailVerified?: NullableBoolFieldUpdateOperationsInput | boolean | null
     isPhoneVerified?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    authenticatorSecret?: NullableStringFieldUpdateOperationsInput | string | null
+    isAuthenticatorEnabled?: BoolFieldUpdateOperationsInput | boolean
   }
 
   export type UserUncheckedUpdateInput = {
@@ -2368,6 +2408,8 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     isEmailVerified?: NullableBoolFieldUpdateOperationsInput | boolean | null
     isPhoneVerified?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    authenticatorSecret?: NullableStringFieldUpdateOperationsInput | string | null
+    isAuthenticatorEnabled?: BoolFieldUpdateOperationsInput | boolean
   }
 
   export type UserCreateManyInput = {
@@ -2395,6 +2437,8 @@ export namespace Prisma {
     updatedAt?: Date | string
     isEmailVerified?: boolean | null
     isPhoneVerified?: boolean | null
+    authenticatorSecret?: string | null
+    isAuthenticatorEnabled?: boolean
   }
 
   export type UserUpdateManyMutationInput = {
@@ -2421,6 +2465,8 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     isEmailVerified?: NullableBoolFieldUpdateOperationsInput | boolean | null
     isPhoneVerified?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    authenticatorSecret?: NullableStringFieldUpdateOperationsInput | string | null
+    isAuthenticatorEnabled?: BoolFieldUpdateOperationsInput | boolean
   }
 
   export type UserUncheckedUpdateManyInput = {
@@ -2447,6 +2493,8 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     isEmailVerified?: NullableBoolFieldUpdateOperationsInput | boolean | null
     isPhoneVerified?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    authenticatorSecret?: NullableStringFieldUpdateOperationsInput | string | null
+    isAuthenticatorEnabled?: BoolFieldUpdateOperationsInput | boolean
   }
 
   export type StringFilter<$PrismaModel = never> = {
@@ -2521,6 +2569,11 @@ export namespace Prisma {
     isSet?: boolean
   }
 
+  export type BoolFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
+    not?: NestedBoolFilter<$PrismaModel> | boolean
+  }
+
   export type UserCountOrderByAggregateInput = {
     id?: SortOrder
     email?: SortOrder
@@ -2546,6 +2599,8 @@ export namespace Prisma {
     updatedAt?: SortOrder
     isEmailVerified?: SortOrder
     isPhoneVerified?: SortOrder
+    authenticatorSecret?: SortOrder
+    isAuthenticatorEnabled?: SortOrder
   }
 
   export type UserAvgOrderByAggregateInput = {
@@ -2579,6 +2634,8 @@ export namespace Prisma {
     updatedAt?: SortOrder
     isEmailVerified?: SortOrder
     isPhoneVerified?: SortOrder
+    authenticatorSecret?: SortOrder
+    isAuthenticatorEnabled?: SortOrder
   }
 
   export type UserMinOrderByAggregateInput = {
@@ -2606,6 +2663,8 @@ export namespace Prisma {
     updatedAt?: SortOrder
     isEmailVerified?: SortOrder
     isPhoneVerified?: SortOrder
+    authenticatorSecret?: SortOrder
+    isAuthenticatorEnabled?: SortOrder
   }
 
   export type UserSumOrderByAggregateInput = {
@@ -2708,6 +2767,14 @@ export namespace Prisma {
     isSet?: boolean
   }
 
+  export type BoolWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
+    not?: NestedBoolWithAggregatesFilter<$PrismaModel> | boolean
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedBoolFilter<$PrismaModel>
+    _max?: NestedBoolFilter<$PrismaModel>
+  }
+
   export type StringFieldUpdateOperationsInput = {
     set?: string
   }
@@ -2742,6 +2809,10 @@ export namespace Prisma {
   export type NullableBoolFieldUpdateOperationsInput = {
     set?: boolean | null
     unset?: boolean
+  }
+
+  export type BoolFieldUpdateOperationsInput = {
+    set?: boolean
   }
 
   export type NestedStringFilter<$PrismaModel = never> = {
@@ -2812,6 +2883,11 @@ export namespace Prisma {
     equals?: boolean | BooleanFieldRefInput<$PrismaModel> | null
     not?: NestedBoolNullableFilter<$PrismaModel> | boolean | null
     isSet?: boolean
+  }
+
+  export type NestedBoolFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
+    not?: NestedBoolFilter<$PrismaModel> | boolean
   }
 
   export type NestedStringWithAggregatesFilter<$PrismaModel = never> = {
@@ -2915,6 +2991,14 @@ export namespace Prisma {
     _min?: NestedBoolNullableFilter<$PrismaModel>
     _max?: NestedBoolNullableFilter<$PrismaModel>
     isSet?: boolean
+  }
+
+  export type NestedBoolWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
+    not?: NestedBoolWithAggregatesFilter<$PrismaModel> | boolean
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedBoolFilter<$PrismaModel>
+    _max?: NestedBoolFilter<$PrismaModel>
   }
 
 

@@ -138,7 +138,9 @@ exports.Prisma.UserScalarFieldEnum = {
   createdAt: 'createdAt',
   updatedAt: 'updatedAt',
   isEmailVerified: 'isEmailVerified',
-  isPhoneVerified: 'isPhoneVerified'
+  isPhoneVerified: 'isPhoneVerified',
+  authenticatorSecret: 'authenticatorSecret',
+  isAuthenticatorEnabled: 'isAuthenticatorEnabled'
 };
 
 exports.Prisma.SortOrder = {

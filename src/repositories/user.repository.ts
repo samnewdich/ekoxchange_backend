@@ -165,4 +165,16 @@ export class UserRepository{
             }
         });
     }
+
+
+    async updateAuthenticatorSecret(email:string, secret:string){
+        return mongo.user.update({
+            where:{
+                email:email
+            },
+            data:{
+                authenticatorSecret:secret
+            }
+        });
+    }
 }

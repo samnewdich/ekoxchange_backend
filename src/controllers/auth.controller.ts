@@ -13,6 +13,9 @@ import { AppleLoginService } from "../services/auth/queries/apple-login.service.
 import type { PasswordRecoveryDto } from "../dtos/password-recovery.dto.js";
 import { PasswordRecoveryService } from "../services/auth/queries/password-recovery.service.js";
 import type { PasswordResetDto } from "../dtos/password-reset.dto.js";
+import type { AuthDto } from "../dtos/auth.dto.js";
+import type { AuthVerifyDto } from "../dtos/authverify.dto.js";
+import { AuthService } from "../services/auth/commands/auth.service.js";
 
 const response = new ResponseBuilder();
 
@@ -22,6 +25,7 @@ export class AuthController {
     private readonly googleLoginService = new GoogleLoginService();
     private readonly appleLoginService = new AppleLoginService();
     private readonly passwordService = new PasswordRecoveryService();
+    private readonly authService = new AuthService();
 
     async registerController(data: RegisterDto, reply: FastifyReply) {
         try {
@@ -104,6 +108,32 @@ export class AuthController {
     async passResetController(data:PasswordResetDto, reply: FastifyReply){
         try {
             const logit = await this.passwordService.checkOtp(data, reply);
+            return logit;
+        } catch (error) {
+            return reply
+                .code(CODE.INTERNAL_SERVER_ERROR)
+                .send(response.internalServerError(error));
+        }
+    }
+
+
+
+
+    async twoFa(data:AuthDto, reply: FastifyReply, app:FastifyInstance){
+        try {
+            const logit = await this.authService.twoFactorAuthentication(data, reply);
+            return logit;
+        } catch (error) {
+            return reply
+                .code(CODE.INTERNAL_SERVER_ERROR)
+                .send(response.internalServerError(error));
+        }
+    }
+
+
+    async twoFaVerify(data:AuthVerifyDto, reply: FastifyReply, app:FastifyInstance){
+        try {
+            const logit = await this.authService.verifyTwoFactorAuthentication(data, reply);
             return logit;
         } catch (error) {
             return reply

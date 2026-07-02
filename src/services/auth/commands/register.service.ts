@@ -60,7 +60,7 @@ export class RegisterService {
             const otpResponse = await this.otpTime(data.email, otp, nownow);
             if(otpResponse){
                 //then send otp
-                //await this.otpSenderEmail(data.email, otp);
+                await this.otpSenderEmail(data.email, otp);
                 //await this.otpSenderPhone(data.phone, otp);
             }
 

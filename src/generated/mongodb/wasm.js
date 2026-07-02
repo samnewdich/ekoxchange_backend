@@ -110,7 +110,9 @@ exports.Prisma.UserScalarFieldEnum = {
   createdAt: 'createdAt',
   updatedAt: 'updatedAt',
   isEmailVerified: 'isEmailVerified',
-  isPhoneVerified: 'isPhoneVerified'
+  isPhoneVerified: 'isPhoneVerified',
+  authenticatorSecret: 'authenticatorSecret',
+  isAuthenticatorEnabled: 'isAuthenticatorEnabled'
 };
 
 exports.Prisma.SortOrder = {
@@ -138,7 +140,7 @@ const config = {
       "value": "prisma-client-js"
     },
     "output": {
-      "value": "/home/samnewdich/Desktop/learn/ts/ansofra/src/generated/mongodb",
+      "value": "/home/samnewdich/Desktop/projects/ekoxchange_backend/src/generated/mongodb",
       "fromEnvVar": null
     },
     "config": {
@@ -152,11 +154,11 @@ const config = {
       }
     ],
     "previewFeatures": [],
-    "sourceFilePath": "/home/samnewdich/Desktop/learn/ts/ansofra/prisma/mongodb.schema.prisma",
+    "sourceFilePath": "/home/samnewdich/Desktop/projects/ekoxchange_backend/prisma/mongodb.schema.prisma",
     "isCustomOutput": true
   },
   "relativeEnvPaths": {
-    "rootEnvPath": "../../../.env",
+    "rootEnvPath": null,
     "schemaEnvPath": "../../../.env"
   },
   "relativePath": "../../../prisma",
@@ -175,13 +177,13 @@ const config = {
       }
     }
   },
-  "inlineSchema": "generator client {\n  provider = \"prisma-client-js\"\n  output   = \"../src/generated/mongodb\"\n}\n\ndatasource db {\n  provider = \"mongodb\"\n  url      = env(\"MONGODB_PRISMA_URL\")\n}\n\nmodel User {\n  id String @id @default(auto()) @map(\"_id\") @db.ObjectId\n\n  email String @unique\n\n  provider String @default(\"local\") // local, google, apple\n\n  providerId String? @unique\n\n  fullname String?\n\n  firstname String?\n\n  lastname String?\n\n  username String @unique\n\n  password String?\n\n  phone String?\n\n  country String?\n\n  timeZone String?\n\n  referralCode String?\n\n  deviceID String?\n\n  latitude Float?\n\n  longitude Float?\n\n  locationName String?\n\n  deviceName String?\n\n  otp String?\n\n  otpCreatedTime Int?\n\n  createdAt DateTime @default(now())\n\n  updatedAt DateTime @updatedAt\n\n  isEmailVerified Boolean?\n\n  isPhoneVerified Boolean?\n}\n",
-  "inlineSchemaHash": "e64465ce1d78850e89711b44139c7ef481375fbb07ce5f3dcb723b1c1009f863",
+  "inlineSchema": "generator client {\n  provider = \"prisma-client-js\"\n  output   = \"../src/generated/mongodb\"\n}\n\ndatasource db {\n  provider = \"mongodb\"\n  url      = env(\"MONGODB_PRISMA_URL\")\n}\n\nmodel User {\n  id String @id @default(auto()) @map(\"_id\") @db.ObjectId\n\n  email String @unique\n\n  provider String @default(\"local\") // local, google, apple\n\n  providerId String? @unique\n\n  fullname String?\n\n  firstname String?\n\n  lastname String?\n\n  username String @unique\n\n  password String?\n\n  phone String?\n\n  country String?\n\n  timeZone String?\n\n  referralCode String?\n\n  deviceID String?\n\n  latitude Float?\n\n  longitude Float?\n\n  locationName String?\n\n  deviceName String?\n\n  otp String?\n\n  otpCreatedTime Int?\n\n  createdAt DateTime @default(now())\n\n  updatedAt DateTime @updatedAt\n\n  isEmailVerified Boolean?\n\n  isPhoneVerified Boolean?\n\n  authenticatorSecret String?\n\n  isAuthenticatorEnabled Boolean @default(false)\n}\n",
+  "inlineSchemaHash": "02309837491b2cfb0251a1c83e157e9e3c259062cabb03e1b84791219b7279d7",
   "copyEngine": true
 }
 config.dirname = '/'
 
-config.runtimeDataModel = JSON.parse("{\"models\":{\"User\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\",\"dbName\":\"_id\"},{\"name\":\"email\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"provider\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"providerId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"fullname\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"firstname\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"lastname\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"username\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"password\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"phone\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"country\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"timeZone\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"referralCode\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"deviceID\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"latitude\",\"kind\":\"scalar\",\"type\":\"Float\"},{\"name\":\"longitude\",\"kind\":\"scalar\",\"type\":\"Float\"},{\"name\":\"locationName\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"deviceName\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"otp\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"otpCreatedTime\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"updatedAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"isEmailVerified\",\"kind\":\"scalar\",\"type\":\"Boolean\"},{\"name\":\"isPhoneVerified\",\"kind\":\"scalar\",\"type\":\"Boolean\"}],\"dbName\":null}},\"enums\":{},\"types\":{}}")
+config.runtimeDataModel = JSON.parse("{\"models\":{\"User\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\",\"dbName\":\"_id\"},{\"name\":\"email\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"provider\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"providerId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"fullname\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"firstname\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"lastname\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"username\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"password\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"phone\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"country\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"timeZone\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"referralCode\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"deviceID\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"latitude\",\"kind\":\"scalar\",\"type\":\"Float\"},{\"name\":\"longitude\",\"kind\":\"scalar\",\"type\":\"Float\"},{\"name\":\"locationName\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"deviceName\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"otp\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"otpCreatedTime\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"updatedAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"isEmailVerified\",\"kind\":\"scalar\",\"type\":\"Boolean\"},{\"name\":\"isPhoneVerified\",\"kind\":\"scalar\",\"type\":\"Boolean\"},{\"name\":\"authenticatorSecret\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"isAuthenticatorEnabled\",\"kind\":\"scalar\",\"type\":\"Boolean\"}],\"dbName\":null}},\"enums\":{},\"types\":{}}")
 defineDmmfProperty(exports.Prisma, config.runtimeDataModel)
 config.engineWasm = {
   getRuntime: async () => require('./query_engine_bg.js'),

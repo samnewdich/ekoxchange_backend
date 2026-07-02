@@ -108,7 +108,7 @@ const config = {
       "value": "prisma-client-js"
     },
     "output": {
-      "value": "/home/samnewdich/Desktop/learn/ts/ansofra/src/generated/postgresql",
+      "value": "/home/samnewdich/Desktop/projects/ekoxchange_backend/src/generated/postgresql",
       "fromEnvVar": null
     },
     "config": {
@@ -122,11 +122,11 @@ const config = {
       }
     ],
     "previewFeatures": [],
-    "sourceFilePath": "/home/samnewdich/Desktop/learn/ts/ansofra/prisma/postgresql.schema.prisma",
+    "sourceFilePath": "/home/samnewdich/Desktop/projects/ekoxchange_backend/prisma/postgresql.schema.prisma",
     "isCustomOutput": true
   },
   "relativeEnvPaths": {
-    "rootEnvPath": "../../../.env",
+    "rootEnvPath": null,
     "schemaEnvPath": "../../../.env"
   },
   "relativePath": "../../../prisma",

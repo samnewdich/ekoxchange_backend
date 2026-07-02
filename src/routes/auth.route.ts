@@ -10,6 +10,8 @@ import type { GoogleLoginDto } from "../dtos/google-login.dto.js";
 import type { AppleLoginDto } from "../dtos/apple-login.dto.js";
 import type { PasswordRecoveryDto } from "../dtos/password-recovery.dto.js";
 import type { PasswordResetDto } from "../dtos/password-reset.dto.js";
+import type { AuthDto } from "../dtos/auth.dto.js";
+import type { AuthVerifyDto } from "../dtos/authverify.dto.js";
 
 export async function authRoute(app:FastifyInstance) {
     const urlprefix: string = `${ansofraConfig()().APP_BASE_URL}${ansofraConfig()().APP_VERSION}`;
@@ -105,6 +107,35 @@ export async function authRoute(app:FastifyInstance) {
         async (req, res)=>{
         //call controller
         return await authController.passResetController(req.body, res);
+    });
+
+
+
+
+
+    //for authenticator creation
+    app.post<{Body:AuthDto}>(
+        urlprefix+'/2fa', 
+        {
+            ...ansofraRateLimit(5, "1 minute"),
+            preHandler: ansofraSanitize
+        }, 
+        async (req, res)=>{
+        //call controller
+        return await authController.twoFa(req.body, res, app);
+    });
+
+
+    //for authenticator verification
+    app.post<{Body:AuthVerifyDto}>(
+        urlprefix+'/2fa/verify', 
+        {
+            ...ansofraRateLimit(5, "1 minute"),
+            preHandler: ansofraSanitize
+        }, 
+        async (req, res)=>{
+        //call controller
+        return await authController.twoFaVerify(req.body, res, app);
     });
     
     
