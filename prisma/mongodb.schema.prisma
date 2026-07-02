@@ -61,4 +61,16 @@ model User {
   authenticatorSecret                         String?
   
   isAuthenticatorEnabled                      Boolean @default(false)
+
+  sumsubApplicantId                           String?   @unique
+
+  kycStatus                                   String?   @default("pending")
+
+  kycReviewAnswer                             String?
+
+  kycRejectedReason                           String?
+
+  kycCompletedAt                              DateTime?
+
+  isKycVerified                               Boolean   @default(false)
 }

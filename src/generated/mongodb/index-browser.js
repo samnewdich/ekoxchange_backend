@@ -140,7 +140,13 @@ exports.Prisma.UserScalarFieldEnum = {
   isEmailVerified: 'isEmailVerified',
   isPhoneVerified: 'isPhoneVerified',
   authenticatorSecret: 'authenticatorSecret',
-  isAuthenticatorEnabled: 'isAuthenticatorEnabled'
+  isAuthenticatorEnabled: 'isAuthenticatorEnabled',
+  sumsubApplicantId: 'sumsubApplicantId',
+  kycStatus: 'kycStatus',
+  kycReviewAnswer: 'kycReviewAnswer',
+  kycRejectedReason: 'kycRejectedReason',
+  kycCompletedAt: 'kycCompletedAt',
+  isKycVerified: 'isKycVerified'
 };
 
 exports.Prisma.SortOrder = {

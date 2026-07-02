@@ -24,10 +24,10 @@ export async function sendEmailMailgun(to: string, subject: string, text: string
     );
 
 
-    const body2 = await response.text();
+    //const body2 = await response.text();
 
-    console.log(response.status);
-    console.log(body2);
+    //console.log(response.status);
+    //console.log(body2);
 
     if (!response.ok) {
         throw new Error(await response.text());

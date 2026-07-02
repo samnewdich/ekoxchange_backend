@@ -177,4 +177,36 @@ export class UserRepository{
             }
         });
     }
+
+
+    async updateApplicantId(email: string, applicantId: string) {
+        return mongo.user.update({
+
+            where:{
+                email:email
+            },
+
+            data:{
+                sumsubApplicantId: applicantId
+            }
+
+        });
+
+    }
+
+
+    async findApplicant(email:string){
+        return mongo.user.findUnique({
+
+            where:{
+                email
+            },
+
+            select:{
+                sumsubApplicantId:true
+            }
+
+        });
+
+    }
 }

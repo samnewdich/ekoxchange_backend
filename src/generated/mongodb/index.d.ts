@@ -862,6 +862,12 @@ export namespace Prisma {
     isPhoneVerified: boolean | null
     authenticatorSecret: string | null
     isAuthenticatorEnabled: boolean | null
+    sumsubApplicantId: string | null
+    kycStatus: string | null
+    kycReviewAnswer: string | null
+    kycRejectedReason: string | null
+    kycCompletedAt: Date | null
+    isKycVerified: boolean | null
   }
 
   export type UserMaxAggregateOutputType = {
@@ -891,6 +897,12 @@ export namespace Prisma {
     isPhoneVerified: boolean | null
     authenticatorSecret: string | null
     isAuthenticatorEnabled: boolean | null
+    sumsubApplicantId: string | null
+    kycStatus: string | null
+    kycReviewAnswer: string | null
+    kycRejectedReason: string | null
+    kycCompletedAt: Date | null
+    isKycVerified: boolean | null
   }
 
   export type UserCountAggregateOutputType = {
@@ -920,6 +932,12 @@ export namespace Prisma {
     isPhoneVerified: number
     authenticatorSecret: number
     isAuthenticatorEnabled: number
+    sumsubApplicantId: number
+    kycStatus: number
+    kycReviewAnswer: number
+    kycRejectedReason: number
+    kycCompletedAt: number
+    isKycVerified: number
     _all: number
   }
 
@@ -963,6 +981,12 @@ export namespace Prisma {
     isPhoneVerified?: true
     authenticatorSecret?: true
     isAuthenticatorEnabled?: true
+    sumsubApplicantId?: true
+    kycStatus?: true
+    kycReviewAnswer?: true
+    kycRejectedReason?: true
+    kycCompletedAt?: true
+    isKycVerified?: true
   }
 
   export type UserMaxAggregateInputType = {
@@ -992,6 +1016,12 @@ export namespace Prisma {
     isPhoneVerified?: true
     authenticatorSecret?: true
     isAuthenticatorEnabled?: true
+    sumsubApplicantId?: true
+    kycStatus?: true
+    kycReviewAnswer?: true
+    kycRejectedReason?: true
+    kycCompletedAt?: true
+    isKycVerified?: true
   }
 
   export type UserCountAggregateInputType = {
@@ -1021,6 +1051,12 @@ export namespace Prisma {
     isPhoneVerified?: true
     authenticatorSecret?: true
     isAuthenticatorEnabled?: true
+    sumsubApplicantId?: true
+    kycStatus?: true
+    kycReviewAnswer?: true
+    kycRejectedReason?: true
+    kycCompletedAt?: true
+    isKycVerified?: true
     _all?: true
   }
 
@@ -1137,6 +1173,12 @@ export namespace Prisma {
     isPhoneVerified: boolean | null
     authenticatorSecret: string | null
     isAuthenticatorEnabled: boolean
+    sumsubApplicantId: string | null
+    kycStatus: string | null
+    kycReviewAnswer: string | null
+    kycRejectedReason: string | null
+    kycCompletedAt: Date | null
+    isKycVerified: boolean
     _count: UserCountAggregateOutputType | null
     _avg: UserAvgAggregateOutputType | null
     _sum: UserSumAggregateOutputType | null
@@ -1185,6 +1227,12 @@ export namespace Prisma {
     isPhoneVerified?: boolean
     authenticatorSecret?: boolean
     isAuthenticatorEnabled?: boolean
+    sumsubApplicantId?: boolean
+    kycStatus?: boolean
+    kycReviewAnswer?: boolean
+    kycRejectedReason?: boolean
+    kycCompletedAt?: boolean
+    isKycVerified?: boolean
   }, ExtArgs["result"]["user"]>
 
 
@@ -1216,9 +1264,15 @@ export namespace Prisma {
     isPhoneVerified?: boolean
     authenticatorSecret?: boolean
     isAuthenticatorEnabled?: boolean
+    sumsubApplicantId?: boolean
+    kycStatus?: boolean
+    kycReviewAnswer?: boolean
+    kycRejectedReason?: boolean
+    kycCompletedAt?: boolean
+    isKycVerified?: boolean
   }
 
-  export type UserOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "email" | "provider" | "providerId" | "fullname" | "firstname" | "lastname" | "username" | "password" | "phone" | "country" | "timeZone" | "referralCode" | "deviceID" | "latitude" | "longitude" | "locationName" | "deviceName" | "otp" | "otpCreatedTime" | "createdAt" | "updatedAt" | "isEmailVerified" | "isPhoneVerified" | "authenticatorSecret" | "isAuthenticatorEnabled", ExtArgs["result"]["user"]>
+  export type UserOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "email" | "provider" | "providerId" | "fullname" | "firstname" | "lastname" | "username" | "password" | "phone" | "country" | "timeZone" | "referralCode" | "deviceID" | "latitude" | "longitude" | "locationName" | "deviceName" | "otp" | "otpCreatedTime" | "createdAt" | "updatedAt" | "isEmailVerified" | "isPhoneVerified" | "authenticatorSecret" | "isAuthenticatorEnabled" | "sumsubApplicantId" | "kycStatus" | "kycReviewAnswer" | "kycRejectedReason" | "kycCompletedAt" | "isKycVerified", ExtArgs["result"]["user"]>
 
   export type $UserPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "User"
@@ -1250,6 +1304,12 @@ export namespace Prisma {
       isPhoneVerified: boolean | null
       authenticatorSecret: string | null
       isAuthenticatorEnabled: boolean
+      sumsubApplicantId: string | null
+      kycStatus: string | null
+      kycReviewAnswer: string | null
+      kycRejectedReason: string | null
+      kycCompletedAt: Date | null
+      isKycVerified: boolean
     }, ExtArgs["result"]["user"]>
     composites: {}
   }
@@ -1668,6 +1728,12 @@ export namespace Prisma {
     readonly isPhoneVerified: FieldRef<"User", 'Boolean'>
     readonly authenticatorSecret: FieldRef<"User", 'String'>
     readonly isAuthenticatorEnabled: FieldRef<"User", 'Boolean'>
+    readonly sumsubApplicantId: FieldRef<"User", 'String'>
+    readonly kycStatus: FieldRef<"User", 'String'>
+    readonly kycReviewAnswer: FieldRef<"User", 'String'>
+    readonly kycRejectedReason: FieldRef<"User", 'String'>
+    readonly kycCompletedAt: FieldRef<"User", 'DateTime'>
+    readonly isKycVerified: FieldRef<"User", 'Boolean'>
   }
     
 
@@ -2046,7 +2112,13 @@ export namespace Prisma {
     isEmailVerified: 'isEmailVerified',
     isPhoneVerified: 'isPhoneVerified',
     authenticatorSecret: 'authenticatorSecret',
-    isAuthenticatorEnabled: 'isAuthenticatorEnabled'
+    isAuthenticatorEnabled: 'isAuthenticatorEnabled',
+    sumsubApplicantId: 'sumsubApplicantId',
+    kycStatus: 'kycStatus',
+    kycReviewAnswer: 'kycReviewAnswer',
+    kycRejectedReason: 'kycRejectedReason',
+    kycCompletedAt: 'kycCompletedAt',
+    isKycVerified: 'isKycVerified'
   };
 
   export type UserScalarFieldEnum = (typeof UserScalarFieldEnum)[keyof typeof UserScalarFieldEnum]
@@ -2169,6 +2241,12 @@ export namespace Prisma {
     isPhoneVerified?: BoolNullableFilter<"User"> | boolean | null
     authenticatorSecret?: StringNullableFilter<"User"> | string | null
     isAuthenticatorEnabled?: BoolFilter<"User"> | boolean
+    sumsubApplicantId?: StringNullableFilter<"User"> | string | null
+    kycStatus?: StringNullableFilter<"User"> | string | null
+    kycReviewAnswer?: StringNullableFilter<"User"> | string | null
+    kycRejectedReason?: StringNullableFilter<"User"> | string | null
+    kycCompletedAt?: DateTimeNullableFilter<"User"> | Date | string | null
+    isKycVerified?: BoolFilter<"User"> | boolean
   }
 
   export type UserOrderByWithRelationInput = {
@@ -2198,6 +2276,12 @@ export namespace Prisma {
     isPhoneVerified?: SortOrder
     authenticatorSecret?: SortOrder
     isAuthenticatorEnabled?: SortOrder
+    sumsubApplicantId?: SortOrder
+    kycStatus?: SortOrder
+    kycReviewAnswer?: SortOrder
+    kycRejectedReason?: SortOrder
+    kycCompletedAt?: SortOrder
+    isKycVerified?: SortOrder
   }
 
   export type UserWhereUniqueInput = Prisma.AtLeast<{
@@ -2205,6 +2289,7 @@ export namespace Prisma {
     email?: string
     providerId?: string
     username?: string
+    sumsubApplicantId?: string
     AND?: UserWhereInput | UserWhereInput[]
     OR?: UserWhereInput[]
     NOT?: UserWhereInput | UserWhereInput[]
@@ -2230,7 +2315,12 @@ export namespace Prisma {
     isPhoneVerified?: BoolNullableFilter<"User"> | boolean | null
     authenticatorSecret?: StringNullableFilter<"User"> | string | null
     isAuthenticatorEnabled?: BoolFilter<"User"> | boolean
-  }, "id" | "email" | "providerId" | "username">
+    kycStatus?: StringNullableFilter<"User"> | string | null
+    kycReviewAnswer?: StringNullableFilter<"User"> | string | null
+    kycRejectedReason?: StringNullableFilter<"User"> | string | null
+    kycCompletedAt?: DateTimeNullableFilter<"User"> | Date | string | null
+    isKycVerified?: BoolFilter<"User"> | boolean
+  }, "id" | "email" | "providerId" | "username" | "sumsubApplicantId">
 
   export type UserOrderByWithAggregationInput = {
     id?: SortOrder
@@ -2259,6 +2349,12 @@ export namespace Prisma {
     isPhoneVerified?: SortOrder
     authenticatorSecret?: SortOrder
     isAuthenticatorEnabled?: SortOrder
+    sumsubApplicantId?: SortOrder
+    kycStatus?: SortOrder
+    kycReviewAnswer?: SortOrder
+    kycRejectedReason?: SortOrder
+    kycCompletedAt?: SortOrder
+    isKycVerified?: SortOrder
     _count?: UserCountOrderByAggregateInput
     _avg?: UserAvgOrderByAggregateInput
     _max?: UserMaxOrderByAggregateInput
@@ -2296,6 +2392,12 @@ export namespace Prisma {
     isPhoneVerified?: BoolNullableWithAggregatesFilter<"User"> | boolean | null
     authenticatorSecret?: StringNullableWithAggregatesFilter<"User"> | string | null
     isAuthenticatorEnabled?: BoolWithAggregatesFilter<"User"> | boolean
+    sumsubApplicantId?: StringNullableWithAggregatesFilter<"User"> | string | null
+    kycStatus?: StringNullableWithAggregatesFilter<"User"> | string | null
+    kycReviewAnswer?: StringNullableWithAggregatesFilter<"User"> | string | null
+    kycRejectedReason?: StringNullableWithAggregatesFilter<"User"> | string | null
+    kycCompletedAt?: DateTimeNullableWithAggregatesFilter<"User"> | Date | string | null
+    isKycVerified?: BoolWithAggregatesFilter<"User"> | boolean
   }
 
   export type UserCreateInput = {
@@ -2325,6 +2427,12 @@ export namespace Prisma {
     isPhoneVerified?: boolean | null
     authenticatorSecret?: string | null
     isAuthenticatorEnabled?: boolean
+    sumsubApplicantId?: string | null
+    kycStatus?: string | null
+    kycReviewAnswer?: string | null
+    kycRejectedReason?: string | null
+    kycCompletedAt?: Date | string | null
+    isKycVerified?: boolean
   }
 
   export type UserUncheckedCreateInput = {
@@ -2354,6 +2462,12 @@ export namespace Prisma {
     isPhoneVerified?: boolean | null
     authenticatorSecret?: string | null
     isAuthenticatorEnabled?: boolean
+    sumsubApplicantId?: string | null
+    kycStatus?: string | null
+    kycReviewAnswer?: string | null
+    kycRejectedReason?: string | null
+    kycCompletedAt?: Date | string | null
+    isKycVerified?: boolean
   }
 
   export type UserUpdateInput = {
@@ -2382,6 +2496,12 @@ export namespace Prisma {
     isPhoneVerified?: NullableBoolFieldUpdateOperationsInput | boolean | null
     authenticatorSecret?: NullableStringFieldUpdateOperationsInput | string | null
     isAuthenticatorEnabled?: BoolFieldUpdateOperationsInput | boolean
+    sumsubApplicantId?: NullableStringFieldUpdateOperationsInput | string | null
+    kycStatus?: NullableStringFieldUpdateOperationsInput | string | null
+    kycReviewAnswer?: NullableStringFieldUpdateOperationsInput | string | null
+    kycRejectedReason?: NullableStringFieldUpdateOperationsInput | string | null
+    kycCompletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    isKycVerified?: BoolFieldUpdateOperationsInput | boolean
   }
 
   export type UserUncheckedUpdateInput = {
@@ -2410,6 +2530,12 @@ export namespace Prisma {
     isPhoneVerified?: NullableBoolFieldUpdateOperationsInput | boolean | null
     authenticatorSecret?: NullableStringFieldUpdateOperationsInput | string | null
     isAuthenticatorEnabled?: BoolFieldUpdateOperationsInput | boolean
+    sumsubApplicantId?: NullableStringFieldUpdateOperationsInput | string | null
+    kycStatus?: NullableStringFieldUpdateOperationsInput | string | null
+    kycReviewAnswer?: NullableStringFieldUpdateOperationsInput | string | null
+    kycRejectedReason?: NullableStringFieldUpdateOperationsInput | string | null
+    kycCompletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    isKycVerified?: BoolFieldUpdateOperationsInput | boolean
   }
 
   export type UserCreateManyInput = {
@@ -2439,6 +2565,12 @@ export namespace Prisma {
     isPhoneVerified?: boolean | null
     authenticatorSecret?: string | null
     isAuthenticatorEnabled?: boolean
+    sumsubApplicantId?: string | null
+    kycStatus?: string | null
+    kycReviewAnswer?: string | null
+    kycRejectedReason?: string | null
+    kycCompletedAt?: Date | string | null
+    isKycVerified?: boolean
   }
 
   export type UserUpdateManyMutationInput = {
@@ -2467,6 +2599,12 @@ export namespace Prisma {
     isPhoneVerified?: NullableBoolFieldUpdateOperationsInput | boolean | null
     authenticatorSecret?: NullableStringFieldUpdateOperationsInput | string | null
     isAuthenticatorEnabled?: BoolFieldUpdateOperationsInput | boolean
+    sumsubApplicantId?: NullableStringFieldUpdateOperationsInput | string | null
+    kycStatus?: NullableStringFieldUpdateOperationsInput | string | null
+    kycReviewAnswer?: NullableStringFieldUpdateOperationsInput | string | null
+    kycRejectedReason?: NullableStringFieldUpdateOperationsInput | string | null
+    kycCompletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    isKycVerified?: BoolFieldUpdateOperationsInput | boolean
   }
 
   export type UserUncheckedUpdateManyInput = {
@@ -2495,6 +2633,12 @@ export namespace Prisma {
     isPhoneVerified?: NullableBoolFieldUpdateOperationsInput | boolean | null
     authenticatorSecret?: NullableStringFieldUpdateOperationsInput | string | null
     isAuthenticatorEnabled?: BoolFieldUpdateOperationsInput | boolean
+    sumsubApplicantId?: NullableStringFieldUpdateOperationsInput | string | null
+    kycStatus?: NullableStringFieldUpdateOperationsInput | string | null
+    kycReviewAnswer?: NullableStringFieldUpdateOperationsInput | string | null
+    kycRejectedReason?: NullableStringFieldUpdateOperationsInput | string | null
+    kycCompletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    isKycVerified?: BoolFieldUpdateOperationsInput | boolean
   }
 
   export type StringFilter<$PrismaModel = never> = {
@@ -2574,6 +2718,18 @@ export namespace Prisma {
     not?: NestedBoolFilter<$PrismaModel> | boolean
   }
 
+  export type DateTimeNullableFilter<$PrismaModel = never> = {
+    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
+    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    not?: NestedDateTimeNullableFilter<$PrismaModel> | Date | string | null
+    isSet?: boolean
+  }
+
   export type UserCountOrderByAggregateInput = {
     id?: SortOrder
     email?: SortOrder
@@ -2601,6 +2757,12 @@ export namespace Prisma {
     isPhoneVerified?: SortOrder
     authenticatorSecret?: SortOrder
     isAuthenticatorEnabled?: SortOrder
+    sumsubApplicantId?: SortOrder
+    kycStatus?: SortOrder
+    kycReviewAnswer?: SortOrder
+    kycRejectedReason?: SortOrder
+    kycCompletedAt?: SortOrder
+    isKycVerified?: SortOrder
   }
 
   export type UserAvgOrderByAggregateInput = {
@@ -2636,6 +2798,12 @@ export namespace Prisma {
     isPhoneVerified?: SortOrder
     authenticatorSecret?: SortOrder
     isAuthenticatorEnabled?: SortOrder
+    sumsubApplicantId?: SortOrder
+    kycStatus?: SortOrder
+    kycReviewAnswer?: SortOrder
+    kycRejectedReason?: SortOrder
+    kycCompletedAt?: SortOrder
+    isKycVerified?: SortOrder
   }
 
   export type UserMinOrderByAggregateInput = {
@@ -2665,6 +2833,12 @@ export namespace Prisma {
     isPhoneVerified?: SortOrder
     authenticatorSecret?: SortOrder
     isAuthenticatorEnabled?: SortOrder
+    sumsubApplicantId?: SortOrder
+    kycStatus?: SortOrder
+    kycReviewAnswer?: SortOrder
+    kycRejectedReason?: SortOrder
+    kycCompletedAt?: SortOrder
+    isKycVerified?: SortOrder
   }
 
   export type UserSumOrderByAggregateInput = {
@@ -2775,6 +2949,21 @@ export namespace Prisma {
     _max?: NestedBoolFilter<$PrismaModel>
   }
 
+  export type DateTimeNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
+    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    not?: NestedDateTimeNullableWithAggregatesFilter<$PrismaModel> | Date | string | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedDateTimeNullableFilter<$PrismaModel>
+    _max?: NestedDateTimeNullableFilter<$PrismaModel>
+    isSet?: boolean
+  }
+
   export type StringFieldUpdateOperationsInput = {
     set?: string
   }
@@ -2813,6 +3002,11 @@ export namespace Prisma {
 
   export type BoolFieldUpdateOperationsInput = {
     set?: boolean
+  }
+
+  export type NullableDateTimeFieldUpdateOperationsInput = {
+    set?: Date | string | null
+    unset?: boolean
   }
 
   export type NestedStringFilter<$PrismaModel = never> = {
@@ -2888,6 +3082,18 @@ export namespace Prisma {
   export type NestedBoolFilter<$PrismaModel = never> = {
     equals?: boolean | BooleanFieldRefInput<$PrismaModel>
     not?: NestedBoolFilter<$PrismaModel> | boolean
+  }
+
+  export type NestedDateTimeNullableFilter<$PrismaModel = never> = {
+    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
+    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    not?: NestedDateTimeNullableFilter<$PrismaModel> | Date | string | null
+    isSet?: boolean
   }
 
   export type NestedStringWithAggregatesFilter<$PrismaModel = never> = {
@@ -2999,6 +3205,21 @@ export namespace Prisma {
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedBoolFilter<$PrismaModel>
     _max?: NestedBoolFilter<$PrismaModel>
+  }
+
+  export type NestedDateTimeNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
+    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    not?: NestedDateTimeNullableWithAggregatesFilter<$PrismaModel> | Date | string | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedDateTimeNullableFilter<$PrismaModel>
+    _max?: NestedDateTimeNullableFilter<$PrismaModel>
+    isSet?: boolean
   }
 
 

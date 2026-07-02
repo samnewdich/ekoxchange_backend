@@ -35,14 +35,14 @@ export async function sendEmailMailersend(
         });
 
         if (!response.ok) {
-            console.error(await response.text());
+            //console.error(await response.text());
             return false;
         }
 
         return true;
 
     } catch (err) {
-        console.error(err);
+        //console.error(err);
         return false;
     }
 }
