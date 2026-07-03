@@ -2,6 +2,40 @@ import axios from "axios";
 import { ansofraConfig } from "../../configs/env.config.js";
 const config = ansofraConfig()();
 
+export async function sendOtpSms(phone: string, otp: string): Promise<void> {
+    const body = {
+        api_key: config.TERMII_API_KEY,
+        to: phone,
+        from: config.TERMII_API_NAME,
+        sms: `Your Ekoxchange verification code is ${otp}. It expires in 10 minutes.`,
+        type: "plain",
+        channel: "generic"
+    };
+
+    //console.log("REQUEST BODY:");
+    //console.log(body);
+
+    const response = await fetch(
+        `${config.TERMII_BASE_URL}/api/sms/send`,
+        {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(body)
+        }
+    );
+
+    const text = await response.text();
+
+    console.log("STATUS:", response.status);
+    console.log("BODY:", text);
+
+    if (!response.ok) {
+        throw new Error(text);
+    }
+}
+
 /*
 export async function sendOtpSms(phone: string, otp: string): Promise<void> {
     const body = {
@@ -26,7 +60,7 @@ export async function sendOtpSms(phone: string, otp: string): Promise<void> {
     console.log(response.data);
 }
 */
-
+/*
 export async function sendOtpSms(phone: string, otp: string): Promise<void> {
     try {
         const body = {
@@ -63,6 +97,7 @@ export async function sendOtpSms(phone: string, otp: string): Promise<void> {
         throw error;
     }
 }
+*/
 
 
 

@@ -50,9 +50,9 @@ export class LoginService{
         if(data.deviceID !== device){
             //send verification otps
             await registerService.otpSenderEmail(data.email, otp);
-            //if(user.phone !==null){
-            //    await registerService.otpSenderPhone(user.phone, otp);
-            //}
+            if(user.phone !==null){
+                await registerService.otpSenderPhone(user.phone, otp);
+            }
 
             await registerService.otpTime(data.email, otp, nownow);
 
@@ -61,7 +61,8 @@ export class LoginService{
                 .send(response.ok({
                     message:'A new device was detected, verification code was sent to your Email and Phone',
                     email:data.email,
-                    phone: user.phone
+                    phone: user.phone,
+                    isAuthenticatorEnabled: user.isAuthenticatorEnabled
                 }));
         }
 

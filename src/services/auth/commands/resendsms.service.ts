@@ -24,7 +24,7 @@ export class ResendSmsService{
         const otp    = otpUtil(nownow.toString() + data.email);
 
 
-        if(otp === null || user.phone === null){
+        if(otp !== null && user.phone !== null){
             //update db
             const dbup = await registerService.otpTime(data.email, otp, nownow);
             if(!dbup){
@@ -33,7 +33,7 @@ export class ResendSmsService{
                     .send(response.internalServerError('Failed to update OTP in database'));
             }
 
-            await registerService.otpSenderPhone(user.phone!, otp);
+            await registerService.otpSenderPhone(user.phone, otp);
 
             return reply
                 .code(CODE.OK)
@@ -42,5 +42,10 @@ export class ResendSmsService{
                     phone: user.phone
                 }));
         }
+
+
+        return reply
+            .code(CODE.BAD_REQUEST)
+            .send(response.badRequest('Phone number not found for this user'));
     }
 }
