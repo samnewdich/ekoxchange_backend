@@ -1,0 +1,548 @@
+================================================================================
+  EKOXCHANGE — API DOCUMENTATION
+  (All endpoints in this codebase as of the current build)
+================================================================================
+
+Base URL:  http://localhost:3000          (development)
+           https://api.ekoxchange.com     (production — TBD)
+
+Content-Type for all requests:  application/json
+Auth header:                    Authorization: Bearer <jwt>
+
+
+================================================================================
+TABLE OF CONTENTS
+================================================================================
+  1.  Authentication
+        1.1  POST /auth/register
+        1.2  POST /auth/verify-email
+        1.3  POST /auth/login
+        1.4  POST /auth/google
+        1.5  POST /auth/apple
+        1.6  POST /auth/password-recovery
+        1.7  POST /auth/password-reset
+        1.8  POST /auth/2fa
+        1.9  POST /auth/2fa/verify
+  1a.  Resending
+        1a.1 POST /resendsms
+        1a.2 POST /resendemail
+  2.  KYC (Sumsub)
+        2.1  POST /kyc/applicant
+        2.2  GET  /kyc/status
+  3.  Webhooks
+        3.1  POST /webhooks/sumsub
+  4.  Standard response shapes
+  5.  Error codes
+  6.  Authentication flow diagram
+
+
+================================================================================
+1. AUTHENTICATION
+================================================================================
+
+1.1  POST /auth/register
+---------------------------------------------------------------------------------
+  Create a new user account.
+
+  Request body:
+    {
+      "email":      "string  (valid email, unique)",
+      "fullname":   "string  (min 4 chars)",
+      "firstname":  "string  (min 2 chars)",
+      "lastname":   "string  (min 2 chars)",
+      "country":    "string  (min 2 chars, ISO country name or code)",
+      "password":   "string  (8-100 chars)",
+      "phone":      "string  (7-20 chars, with country code e.g. +234...)",
+      "device": {
+        "deviceID":     "string",
+        "latitude":     "number  (-90 to 90)",
+        "longitude":    "number  (-180 to 180)",
+        "locationName": "string",
+        "deviceName":   "string"
+      },
+      "username":       "string  (3-30 chars, letters/numbers/underscore only)",
+      "timeZone":       "string  (e.g. Africa/Lagos)",
+      "referralCode":   "string  (optional, nullable)",
+      "otp":            "string  (optional, nullable)",
+      "otp_expire":     "string  (optional, nullable, ISO timestamp)"
+    }
+
+  Response 201:
+    {
+      "status": "success",
+      "response": "Created successfully",
+      "data": {
+        "user": { ...user object without password... },
+        "token": "eyJhbGciOi..."  // JWT
+      }
+    }
+
+  Side effects:
+    - Sends an OTP via Termii (SMS) to verify the phone number
+    - Sends a welcome email via Mailersend or Mailgun
+
+  Controller:  auth.controller.ts -> registerController()
+  Service:     services/auth/commands/register.service.ts
+
+
+1.2  POST /auth/verify-email
+---------------------------------------------------------------------------------
+  Verify the user's email using the OTP sent during registration.
+
+  Request body:
+    {
+      "email": "user@example.com",
+      "otp":   "123456"
+    }
+
+  Response 200:
+    {
+      "status": "success",
+      "response": "Email verified",
+      "data": { "user": {...} }
+    }
+
+  Errors:
+    400  -> Invalid or expired OTP
+    404  -> User not found
+
+  Controller:  auth.controller.ts -> emailVerification()
+  Service:     services/auth/commands/register.service.ts -> verifyEmail()
+
+
+1.3  POST /auth/login
+---------------------------------------------------------------------------------
+  Email + password login.
+
+  Request body:
+    {
+      "email":    "user@example.com",
+      "password": "string",
+      "deviceID": "string  (the current device's unique id)"
+    }
+
+  Response 200:
+    {
+      "status": "success",
+      "response": "Login successful",
+      "data": {
+        "user":  { ... },
+        "token": "eyJhbGciOi..."
+      }
+    }
+
+  Errors:
+    401  -> Wrong email or password
+    403  -> Email not verified
+
+  Side effects:
+    - Records the device fingerprint (deviceID, latitude, longitude, etc.)
+    - If 2FA is enabled for the user, response includes "twoFactorRequired": true
+      and the token is a short-lived one; the client must then call
+      POST /auth/2fa/verify to get the long-lived token
+
+  Controller:  auth.controller.ts -> loginController()
+  Service:     services/auth/queries/login.service.ts
+
+
+1.4  POST /auth/google
+---------------------------------------------------------------------------------
+  Login (or sign up) with a Google ID token from the client.
+
+  Request body:
+    {
+      "idToken": "string  (Google ID token from the mobile/web SDK)"
+    }
+
+  Response 200:
+    {
+      "status": "success",
+      "response": "Login successful",
+      "data": {
+        "user":  { ... },
+        "token": "eyJhbGciOi..."
+      }
+    }
+
+  Behavior:
+    - If no user exists with providerId = google's sub, a new user is created
+      automatically (auto-registration). Email is taken from the Google
+      profile and is considered already verified.
+    - If the user exists, they are logged in.
+    - A unique username is generated as `user_<random8>`.
+
+  Controller:  auth.controller.ts -> googleLoginController()
+  Service:     services/auth/queries/google-login.service.ts
+
+
+1.5  POST /auth/apple
+---------------------------------------------------------------------------------
+  Login (or sign up) with an Apple identity token.
+
+  Request body:
+    {
+      "identityToken": "string  (Apple identity token from Sign in with Apple)"
+    }
+
+  Response 200:
+    {
+      "status": "success",
+      "response": "Login successful",
+      "data": {
+        "user":  { ... },
+        "token": "eyJhbGciOi..."
+      }
+    }
+
+  Behavior:  Same auto-register-or-login as Google.
+
+  Controller:  auth.controller.ts -> appleLoginController()
+  Service:     services/auth/queries/apple-login.service.ts
+
+
+1.6  POST /auth/password-recovery
+---------------------------------------------------------------------------------
+  Request a password-reset OTP via email.
+
+  Request body:
+    {
+      "email": "user@example.com"
+    }
+
+  Response 200:
+    {
+      "status": "success",
+      "response": "Recovery email sent"
+    }
+
+  Notes:
+    - Always returns 200 (even if the email does not exist) to prevent
+      email-enumeration attacks.
+    - Sends an email with an OTP via Mailersend or Mailgun.
+
+  Controller:  auth.controller.ts -> passRecoveryController()
+  Service:     services/auth/queries/password-recovery.service.ts -> checkEmail()
+
+
+1.7  POST /auth/password-reset
+---------------------------------------------------------------------------------
+  Reset the password using the OTP received by email.
+
+  Request body:
+    {
+      "email":    "user@example.com",
+      "password": "newPassword123  (min 8 chars)",
+      "otp":      "123456"
+    }
+
+  Response 200:
+    {
+      "status": "success",
+      "response": "Password reset successful"
+    }
+
+  Errors:
+    400  -> Invalid or expired OTP
+    404  -> User not found
+
+  Controller:  auth.controller.ts -> passResetController()
+  Service:     services/auth/queries/password-recovery.service.ts -> checkOtp()
+
+
+1.8  POST /auth/2fa
+---------------------------------------------------------------------------------
+  Step 1 of two-factor authentication setup/verify: send the OTP to the
+  user's email.
+
+  Request body:
+    {
+      "email": "user@example.com"
+    }
+
+  Response 200:
+    {
+      "status": "success",
+      "response": "2FA code sent"
+    }
+
+  Use cases:
+    - User is logging in and has 2FA enabled -> call this to get the OTP
+    - User is enabling 2FA for the first time -> call this, then
+      POST /auth/2fa/verify with the OTP
+
+  Controller:  auth.controller.ts -> twoFa()
+  Service:     services/auth/commands/auth.service.ts -> twoFactorAuthentication()
+
+
+1.9  POST /auth/2fa/verify
+---------------------------------------------------------------------------------
+  Step 2 of two-factor authentication: verify the OTP.
+
+  Request body:
+    {
+      "email": "user@example.com",
+      "token": "123456  (6 digits)"
+    }
+
+  Response 200:
+    {
+      "status": "success",
+      "response": "2FA verified",
+      "data": {
+        "user":  { ... },
+        "token": "eyJhbGciOi...  (long-lived session token)"
+      }
+    }
+
+  Controller:  auth.controller.ts -> twoFaVerify()
+  Service:     services/auth/commands/auth.service.ts -> verifyTwoFactorAuthentication()
+
+
+================================================================================
+2. KYC (SUMSUB)
+================================================================================
+
+See README.txt for the full Sumsub integration guide. Endpoint summary:
+
+2.1  POST /kyc/applicant
+---------------------------------------------------------------------------------
+  Auth:        Required (Bearer JWT)
+  Rate limit:  5 requests per minute
+  Middleware:  ansofraSanitize
+
+  Starts the KYC flow. Creates a Sumsub applicant (or reuses an existing
+  one) and returns an SDK access token the client uses to launch the
+  Sumsub SDK.
+
+  Request body:  none
+
+  Response 201:
+    {
+      "status": "success",
+      "response": "Created successfully",
+      "data": {
+        "data": {
+          "applicantId": "68a1234...",   // Sumsub's applicant id
+          "token":       "eyJhbGciOi...", // SDK access token (1h TTL)
+          "userId":      "user_abc123"   // your internal user id
+        }
+      }
+    }
+
+  Errors:
+    401  -> No / invalid JWT
+    404  -> User not found
+    500  -> Sumsub API error (logged with full payload)
+
+  Controller:  kyc.controller.ts -> createApplicant()
+  Service:     services/kyc/commands/createApplicant.service.ts
+  API calls:   POST /resources/applicants
+               POST /resources/accessTokens/sdk
+
+  Client usage:
+    1. POST /kyc/applicant
+    2. Take the returned `token` and `applicantId`
+    3. Launch the Sumsub SDK with them
+    4. When the SDK closes, poll GET /kyc/status
+
+
+2.2  GET /kyc/status
+---------------------------------------------------------------------------------
+  Auth:        Required (Bearer JWT)
+  Rate limit:  10 requests per minute
+
+  Returns the current KYC status of the authenticated user. Used by the
+  client to poll after the SDK closes.
+
+  Request body:  none
+
+  Response 200:
+    {
+      "status": "success",
+      "response": "Action was successful",
+      "data": {
+        "data": {
+          "kycStatus":         "pending" | "in_progress" | "approved" | "rejected",
+          "isKycVerified":     false,
+          "kycReviewAnswer":   "GREEN" | "RED" | null,
+          "kycRejectedReason": null,
+          "kycCompletedAt":    null
+        }
+      }
+    }
+
+  Controller:  kyc.controller.ts -> getKycStatus()
+  Service:     services/kyc/queries/getKycStatus.service.ts
+
+  Polling strategy for the client:
+    - Every 3 seconds after the SDK closes
+    - Stop when isKycVerified === true OR kycStatus === "rejected"
+    - Max 60 seconds of polling; after that, show "Pending review"
+      and let the user know we'll email them when it's done
+
+
+================================================================================
+3. WEBHOOKS
+================================================================================
+
+3.1  POST /webhooks/sumsub
+---------------------------------------------------------------------------------
+  Auth:             HMAC-SHA256 signature in X-Payload-Digest header
+                    (we verify using SUMSUB_WEBHOOK_SECRET)
+  Rate limit:       none
+  Content-Type:     application/json (raw body required for signature)
+
+  Called by Sumsub (NOT by clients) when an applicant's state changes.
+  We update the user's kycStatus in our DB based on the result.
+
+  Request headers:
+    X-Payload-Digest-Alg: HMAC_SHA256_HEX
+    X-Payload-Digest:     <hex hmac of raw body using SUMSUB_WEBHOOK_SECRET>
+
+  Request body (example):
+    {
+      "applicantId":    "68a1234...",
+      "externalUserId": "user_abc123",
+      "type":           "applicantReviewed",
+      "reviewResult": {
+        "reviewAnswer": "GREEN",
+        "rejectLabels": []
+      },
+      "createdAt":    "2026-07-03T12:34:56Z",
+      "sandboxMode":  false
+    }
+
+  Events handled:
+    - applicantCreated    -> kycStatus = "in_progress"
+    - applicantReviewed   -> kycStatus = "approved" | "rejected"
+    - applicantPending    -> kycStatus = "pending"
+    - applicantOnHold     -> kycStatus = "pending"  (manual review)
+
+  Response 200:
+    { "status": "ok" }
+
+  Errors:
+    400  -> Invalid signature (Sumsub will retry)
+
+  Handler:  webhooks/sumsub.webhook.ts
+  Service:  services/kyc/commands/handleSumsubReview.service.ts
+
+  Important:
+    - Sumsub posts from a fixed set of IPs; pin them in your firewall if
+      possible.
+    - Sumsub will retry the webhook up to 10 times over 24h if it gets
+      a non-2xx response.
+    - The endpoint MUST respond in <5s; long-running work should be
+      queued, not done inline. (Our current handler is fast enough.)
+
+
+================================================================================
+4. STANDARD RESPONSE SHAPES
+================================================================================
+
+4.1  Success
+    {
+      "status":   "success",
+      "response": "Human-readable message",
+      "data":     { ... }   // optional, payload-specific
+    }
+
+4.2  Failure
+    {
+      "status":   "failed",
+      "response": "Human-readable error message",
+      "data":     { ... }   // optional, e.g. validation details
+    }
+
+  Defined in src/constants/reply.constant.ts -> ResponseBuilder class.
+
+
+================================================================================
+5. ERROR CODES
+================================================================================
+
+  From src/constants/http.constant.ts:
+
+  200  OK                  - request succeeded
+  201  CREATED             - resource created
+  204  NO_CONTENT          - success, no body
+
+  400  BAD_REQUEST         - validation error, invalid signature, etc.
+  401  UNAUTHORIZED        - missing / invalid JWT
+  403  FORBIDDEN           - authenticated but not allowed (e.g. email
+                             not verified, or trying to access another
+                             user's resource)
+  404  NOT_FOUND           - resource (user, applicant, etc.) not found
+  409  CONFLICT            - duplicate (e.g. email already registered)
+
+  500  INTERNAL_SERVER_ERROR - unexpected error; check server logs
+
+  Some endpoints use additional status codes; check the relevant section
+  above for specifics.
+
+
+================================================================================
+6. AUTHENTICATION FLOW DIAGRAM
+================================================================================
+
+  Standard email + password:
+  -----------------------
+    Client                    Server
+      |                          |
+      |---POST /auth/register--->|
+      |                          |---create user, send OTP---
+      |<--201 {user, token}-----|
+      |                          |
+      |---POST /auth/verify----->|
+      |    {email, otp}         |
+      |<--200 verified----------|
+      |                          |
+      |---POST /auth/login------>|
+      |    {email, pwd, devID}  |
+      |<--200 {user, token}-----|
+      |                          |
+      |---GET /kyc/status------>|
+      |    Authorization: Bearer|
+      |<--200 {kycStatus:...}---|
+
+  Google / Apple (one-tap):
+  -----------------------
+    Client                    Server
+      |                          |
+      |---POST /auth/google----->|
+      |    {idToken}             |
+      |                          |---verify with Google, find/create user---
+      |<--200 {user, token}-----|
+
+  Password reset:
+  -----------------------
+    Client                    Server
+      |                          |
+      |---POST /auth/recovery--->|
+      |    {email}               |
+      |<--200 sent---------------|
+      |                          |
+      |---POST /auth/reset------>|
+      |    {email, pwd, otp}    |
+      |<--200 reset--------------|
+
+
+================================================================================
+7. CORS / SECURITY NOTES
+================================================================================
+
+  - All authenticated endpoints require the header:
+        Authorization: Bearer <jwt>
+  - JWT secret is in JWT_SECRET env var. Do NOT rotate it without a
+    strategy for invalidating existing tokens.
+  - Tokens are signed with the user.id and email. The middleware
+    (app.authenticate) verifies the token and attaches the decoded
+    payload to request.user.
+  - Rate limits (via ansofraRateLimit) are per-IP.
+  - CORS is not yet configured in app.ts. If you have a separate
+    frontend origin, add @fastify/cors before any routes are
+    registered.
+
+================================================================================
+END OF DOCUMENT
+================================================================================

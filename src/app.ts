@@ -2,10 +2,10 @@ import Fastify from 'fastify';
 import type { FastifyInstance } from 'fastify';
 import fastifyJwt from '@fastify/jwt';
 import fastifyRawBody from 'fastify-raw-body';
-
 import { userRoute } from './routes/user.route.js';
 import { authRoute } from './routes/auth.route.js';
 import { kycRoute } from './routes/kyc.route.js';
+import { resendRoute } from './routes/resend.route.js';
 import { handleSumsubWebhook } from './webhooks/sumsub.webhook.js';
 import { registerAuthDecorators } from './middlewares/auth.middleware.js';
 import { ansofraConfig } from './configs/env.config.js';
@@ -31,6 +31,7 @@ export async function buildApp(): Promise<FastifyInstance> {
 
     // 4. Public routes (login, register, etc.)
     app.register(authRoute);
+    app.register(resendRoute);
 
     // 5. Protected routes
     app.register(kycRoute);
