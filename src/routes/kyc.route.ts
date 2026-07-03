@@ -1,25 +1,24 @@
-import type { FastifyInstance } from "fastify";
-import { ansofraConfig } from "../configs/env.config.js";
+import type { FastifyInstance, FastifyRequest, FastifyReply } from "fastify";
+import { KycController } from "../controllers/kyc.controller.js";
+import { CreateApplicantService } from "../services/kyc/commands/createApplicant.service.js";
 import { ansofraSanitize } from "../middlewares/body.middleware.js";
 import { ansofraRateLimit } from "../middlewares/ratelimit.middleware.js";
-import { KycController } from "../controllers/kyc.controller.js";
-import type { User } from "../generated/mongodb/wasm.js";
 
-export async function kycRoute(app:FastifyInstance) {
-    const urlprefix: string = `${ansofraConfig()().APP_BASE_URL}${ansofraConfig()().APP_VERSION}`;
-    const kycController = new KycController();
+export async function kycRoute(app: FastifyInstance) {
+  // Protect this route with your existing auth decorator (e.g. app.authenticate)
+  // app.addHook("onRequest", app.authenticate);
 
-    //for authenticator verification
-    app.post<{Body:User}>(
-        urlprefix+'/kyc/applicant', 
-        {
-            ...ansofraRateLimit(5, "1 minute"),
-            preHandler: ansofraSanitize
-        }, 
-        async (req, res)=>{
-        //call controller
-        return await kycController.createApplicant(req.body, res);
-    });
+  const controller = new KycController(new CreateApplicantService());
     
-    
+  app.post(
+    "/kyc/applicant",
+    {
+        ...ansofraRateLimit(5, "1 minute"),
+        preHandler: ansofraSanitize
+    },    // remove if you don't have this yet
+    async (request: FastifyRequest, reply: FastifyReply) => {
+      const email = (request as any).user?.email;   // set by your JWT auth hook
+      return controller.createApplicant(email, reply);
+    }
+  );
 }

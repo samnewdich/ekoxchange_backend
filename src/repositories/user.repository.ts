@@ -179,7 +179,7 @@ export class UserRepository{
     }
 
 
-    async updateApplicantId(email: string, applicantId: string) {
+    /*async updateApplicantId(email: string, data:object){ {
         return mongo.user.update({
 
             where:{
@@ -187,7 +187,8 @@ export class UserRepository{
             },
 
             data:{
-                sumsubApplicantId: applicantId
+                sumsubApplicantId: data.sumsubApplicantId,
+                kycStatus: data.kycStatus
             }
 
         });
@@ -209,4 +210,6 @@ export class UserRepository{
         });
 
     }
+    */
+    
 }

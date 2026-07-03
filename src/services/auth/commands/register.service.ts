@@ -61,7 +61,7 @@ export class RegisterService {
             if(otpResponse){
                 //then send otp
                 await this.otpSenderEmail(data.email, otp);
-                await this.otpSenderPhone(data.phone, otp);
+                //await this.otpSenderPhone(data.phone, otp);
             }
 
             return true;
