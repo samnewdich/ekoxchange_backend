@@ -167,6 +167,13 @@ export class UserRepository{
     }
 
 
+    async findById(userId: string) {
+        return mongo.user.findUnique({
+            where: { id: userId },
+        });
+    }
+
+
     async updateAuthenticatorSecret(email:string, secret:string){
         return mongo.user.update({
             where:{
@@ -177,39 +184,33 @@ export class UserRepository{
             }
         });
     }
+    
 
-
-    /*async updateApplicantId(email: string, data:object){ {
+    async updateApplicantId(userId: string, data: { sumsubApplicantId: string; kycStatus: string }) {
         return mongo.user.update({
-
-            where:{
-                email:email
-            },
-
-            data:{
+            where: { id: userId },
+            data: {
                 sumsubApplicantId: data.sumsubApplicantId,
-                kycStatus: data.kycStatus
-            }
-
-        });
-
-    }
-
-
-    async findApplicant(email:string){
-        return mongo.user.findUnique({
-
-            where:{
-                email
+                kycStatus: data.kycStatus,
             },
-
-            select:{
-                sumsubApplicantId:true
-            }
-
         });
-
     }
-    */
+
+    async findApplicant(userId: string): Promise<{ sumsubApplicantId: string | null } | null> {
+        const user = await mongo.user.findUnique({
+            where: { id: userId },
+            select: { sumsubApplicantId: true },
+        });
+        return user; // null if user not found, otherwise { sumsubApplicantId }
+    }
+
+
+
+    async updateKycResult(userId: string, data: {kycStatus: string; isKycVerified: boolean; kycReviewAnswer: string | null; kycRejectedReason: string | null; kycCompletedAt: Date;}) {
+        return mongo.user.update({
+            where: { id: userId },
+            data,
+        });
+    }
     
 }
